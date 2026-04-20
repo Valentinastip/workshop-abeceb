@@ -312,10 +312,19 @@
 
         async function finalSubmit() {
             if (Object.keys(currentAnswers).length < 16) return;
+            
+            // 1. OBTENER EL BOTÓN Y BLOQUEARLO
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true;
+            btn.innerText = "ENVIANDO DATOS...";
+            btn.style.opacity = "0.5";
+            btn.style.cursor = "not-allowed";
+
             let t = 0; let i = 0;
             Object.values(currentAnswers).forEach(a => { t += a.t; i += a.i; });
             
-            const { db, collection, doc, setDoc, appId } = window.hubDB;
+            const { db, collection, doc, setDoc } = window.hubDB;
+            
             const payload = { 
                 name: selectedCEO, 
                 t, 
@@ -325,13 +334,21 @@
             };
             
             try {
-                // GUARDADO NOMINAL EN TU FIREBASE
-                await setDoc(doc(collection(db, 'respuestas_ceos'), Date.now().toString()), payload);
+                // 2. GUARDADO CON ID ÚNICO (Usa el nombre del CEO como ID para evitar duplicados)
+                // Reemplazamos Date.now() por un ID basado en el nombre para que no se repita
+                const docId = selectedCEO.replace(/\s+/g, '_').toLowerCase(); 
+                await setDoc(doc(collection(db, 'respuestas_ceos'), docId), payload);
+                
                 renderIndividualResult(t, i);
                 switchScreen('screen-result');
             } catch (err) { 
                 console.error(err);
                 alert("Error al conectar con Firebase. Revisá las Reglas."); 
+                // Si falla, rehabilitamos el botón para que pueda intentar de nuevo
+                btn.disabled = false;
+                btn.innerText = "ENVIAR RESPUESTAS";
+                btn.style.opacity = "1";
+                btn.style.cursor = "pointer";
             }
         }
 
