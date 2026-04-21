@@ -4,83 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HUB Global ABECEB | Workshop 2026</title>
-   
     <style>
         :root {
             --primary-dark: #293945;
             --primary-teal: #3E7578;
             --primary-aqua: #6DB4AF;
             --primary-lime: #95C11F;
-            --sec-purple: #6C2771;
-            --sec-orange: #F7931D;
-            --sec-red: #B82C2F;
             --bg-light: #f4f7f9;
         }
-
-        body { font-family: 'Calibri', 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-light); color: #212529; overflow-x: hidden; }
-        h1, h2, h3 { font-family: 'Segoe UI Black', sans-serif; text-transform: uppercase; color: var(--primary-dark); }
-        
+        body { font-family: 'Calibri', 'Segoe UI', sans-serif; margin: 0; background-color: var(--bg-light); color: #212529; }
         header { background: white; padding: 20px; text-align: center; border-bottom: 5px solid var(--primary-lime); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
-        .screen { display: none; animation: fadeIn 0.4s ease; }
+        .screen { display: none; }
         .screen.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
         .card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; }
-        select { width: 100%; padding: 15px; font-size: 14pt; border-radius: 10px; border: 2px solid #ddd; margin: 25px 0; font-family: 'Calibri', sans-serif; }
-        
-        .btn-primary { background: var(--primary-dark); color: white; padding: 18px 45px; border: none; border-radius: 8px; font-size: 14pt; cursor: pointer; font-family: 'Segoe UI Black', sans-serif; transition: 0.3s; width: 100%; }
-        .btn-primary:hover { background: var(--primary-teal); transform: translateY(-2px); }
-
-        .axis-section { background: white; margin-bottom: 20px; border-radius: 12px; border-left: 8px solid var(--primary-teal); overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .axis-header { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .axis-header h3 { margin: 0; font-size: 16pt; color: var(--primary-teal); }
+        .btn-primary { background: var(--primary-dark); color: white; padding: 18px 45px; border: none; border-radius: 8px; font-size: 14pt; cursor: pointer; width: 100%; font-weight: bold; }
+        .axis-section { background: white; margin-bottom: 20px; border-radius: 12px; border-left: 8px solid var(--primary-teal); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .axis-header { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; font-weight: bold; }
         .axis-content { padding: 25px; display: none; }
         .axis-content.active { display: block; }
-
-        .question { margin-bottom: 30px; }
-        .q-text { font-size: 15pt; font-weight: bold; margin-bottom: 15px; display: block; }
-        .options-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
-        .opt-btn { background: #f9f9f9; border: 1.5px solid #eee; padding: 12px; border-radius: 8px; cursor: pointer; text-align: left; font-size: 12pt; transition: 0.2s; }
-        .opt-btn.selected { background: var(--primary-teal); color: white; border-color: var(--primary-dark); }
-
-        .dashboard-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-        .stat-box { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .stat-val { font-size: 36pt; font-family: 'Segoe UI Black', sans-serif; color: var(--primary-lime); }
-        
-        .matrix-box { position: relative; width: 480px; height: 480px; margin: 30px auto; border: 4px solid var(--primary-dark); display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; background: #fff; }
-        .quadrant { display: flex; align-items: center; justify-content: center; font-family: 'Segoe UI Black', sans-serif; font-size: 11pt; text-align: center; opacity: 0.6; }
-        .q-eficiente { background: rgba(62, 117, 120, 0.1); border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
-        .q-estrategica { background: rgba(149, 193, 31, 0.1); border-bottom: 1px solid #ddd; }
-        .q-adaptativa { background: rgba(184, 44, 47, 0.1); border-right: 1px solid #ddd; }
-        .q-integrada { background: rgba(247, 147, 29, 0.1); }
-        
-        .dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid white; position: absolute; transform: translate(-50%, -50%); transition: 0.8s ease; }
-        .avg-dot { width: 30px; height: 30px; background: var(--primary-dark); border: 5px solid var(--primary-lime); z-index: 100; box-shadow: 0 0 15px rgba(0,0,0,0.4); }
-
-        .progress-bar-fixed { position: fixed; top: 0; left: 0; height: 6px; background: var(--primary-lime); width: 0%; z-index: 2000; }
-        footer { text-align: center; padding: 30px; color: #aaa; font-size: 9pt; }
+        .opt-btn { display: block; width: 100%; background: #f9f9f9; border: 1px solid #eee; padding: 12px; margin-bottom: 5px; border-radius: 8px; cursor: pointer; text-align: left; }
+        .opt-btn.selected { background: var(--primary-teal); color: white; }
+        .matrix-box { position: relative; width: 300px; height: 300px; margin: 20px auto; border: 3px solid var(--primary-dark); display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; background: #fff; }
+        .quadrant { border: 1px solid #eee; display: flex; align-items: center; justify-content: center; font-size: 8pt; opacity: 0.5; font-weight: bold; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--primary-dark); border: 2px solid white; position: absolute; transform: translate(-50%, -50%); }
+        .progress-bar-fixed { position: fixed; top: 0; left: 0; height: 6px; background: var(--primary-lime); width: 0%; transition: 0.3s; }
     </style>
 </head>
 <body>
-
     <div class="progress-bar-fixed" id="mainProgress"></div>
-
     <header>
-        <svg viewBox="0 0 400 100" style="height: 45px;">
-            <text x="10" y="70" font-family="Segoe UI Black" font-size="55" fill="#293945">ABECEB</text>
-            <rect x="280" y="30" width="35" height="35" fill="#95C11F"/>
-        </svg>
-        <h1 style="font-size: 20pt; margin: 5px 0;">Workshop HUB Global</h1>
+        <h1 style="color: var(--primary-dark);">ABECEB <span style="color: var(--primary-lime);">■</span></h1>
+        <p>Workshop HUB Global 2026</p>
     </header>
 
     <div class="container">
-        
         <div id="screen-login" class="screen active">
             <div class="card">
-                <h2 style="color: var(--primary-teal);">Portal del CEO</h2>
-                <p>Identifíquese para registrar su posicionamiento estructural.</p>
-                <select id="ceo-selector">
+                <h2>Portal del CEO</h2>
+                <select id="ceo-selector" style="width: 100%; padding: 10px; margin: 20px 0;">
                     <option value="">-- Seleccione su Perfil --</option>
                     <option value="Silvana Bergonzi - Arredo">Silvana Bergonzi (Arredo)</option>
                     <option value="Matías Martin - BASF">Matías Martin (BASF)</option>
@@ -88,348 +50,125 @@
                     <option value="Laura Ge - Farmacity">Laura Ge (Farmacity)</option>
                     <option value="Daniel Crapis - Ferring">Daniel Crapis (Ferring)</option>
                     <option value="Diego Pistone - Savencia">Diego Pistone (Savencia)</option>
-                    <option value="Ivana Thornton - Mercer">Ivana Thornton (Mercer)</option>
-                    <option value="Pablo Feresini - Rotoplas">Pablo Feresini (Rotoplas)</option>
-                    <option value="Marcela Romero - Schneider">Marcela Romero (Schneider)</option>
-                    <option value="Cristina Bomchil - Valuar">Cristina Bomchil (Valuar)</option>
-                    <option value="Javier Martinez Alvarez - Techint">Javier Martinez Alvarez (Techint)</option>
-                    <option value="Francisco Cerviño - Comafi">Francisco Cerviño (Comafi)</option>
-                    <option value="Verónica Cheja - Urban">Verónica Cheja (Urban)</option>
-                    <option value="Juan Garibaldi - Danone">Juan Garibaldi (Danone)</option>
-                    <option value="Anna Cohen - Grupo Cohen">Anna Cohen (Grupo Cohen)</option>
-                    <option value="Dolores Brizuela - Dow">Dolores Brizuela (Dow)</option>
-                    <option value="Javier Goñi - Akapol">Javier Goñi (Akapol)</option>
-                    <option value="Alejandro Van Thillo - Murchison">Alejandro Van Thillo (Murchison)</option>
-                    <option value="Christian Viand - Criteria">Christian Viand (Criteria)</option>
-                    <option value="Florencia Tsuji - Verisure">Florencia Tsuji (Verisure)</option>
-                    <option value="Pablo Knopoff - Isonomía">Pablo Knopoff (Isonomía)</option>
                 </select>
                 <button class="btn-primary" onclick="startSurvey()">INICIAR DIAGNÓSTICO</button>
-                <p style="margin-top: 25px;"><a href="#" onclick="showModerator()" style="color: #ccc; text-decoration: none; font-size: 10pt;">Acceso Moderador (Internal Use)</a></p>
+                <p style="margin-top: 20px;"><a href="#" onclick="showModerator()" style="color: #ccc; text-decoration: none; font-size: 9pt;">Acceso Moderador</a></p>
             </div>
         </div>
 
         <div id="screen-survey" class="screen">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h2 id="user-greeting" style="color: var(--primary-teal); margin-bottom: 5px;"></h2>
-                <p class="note">Complete las 16 dimensiones estratégicas.</p>
-            </div>
+            <h2 id="user-greeting"></h2>
             <div id="questions-container"></div>
-            <div style="margin-top: 30px; padding-bottom: 80px;">
-                <button id="submit-btn" class="btn-primary" style="background: var(--primary-lime); display: none;" onclick="finalSubmit()">ENVIAR RESPUESTAS</button>
-            </div>
+            <button id="submit-btn" class="btn-primary" style="display:none; background: var(--primary-lime);" onclick="finalSubmit()">ENVIAR RESULTADOS</button>
         </div>
 
         <div id="screen-mod" class="screen">
-            <h2 style="text-align: center; margin-bottom: 20px;">DASHBOARD GRUPAL</h2>
-            <div class="dashboard-stats">
-                <div class="stat-box">
-                    <p>Participantes</p>
-                    <div class="stat-val" id="mod-count">0</div>
-                    <p id="mod-last-name" style="font-size: 9pt; color: #999;">Esperando registros...</p>
-                </div>
-                <div class="stat-box">
-                    <p>Promedio de Madurez</p>
-                    <div style="text-align: left; margin-top: 15px;">
-                        <span style="font-size: 10pt;">Transformación (T)</span>
-                        <div style="width: 100%; height: 8px; background: #eee; border-radius: 4px; margin: 4px 0 10px;"><div id="avg-t-bar" style="width: 0%; height: 100%; background: var(--primary-teal); border-radius: 4px; transition: 1s;"></div></div>
-                        <span style="font-size: 10pt;">Integración (I)</span>
-                        <div style="width: 100%; height: 8px; background: #eee; border-radius: 4px; margin: 4px 0;"><div id="avg-i-bar" style="width: 0%; height: 100%; background: var(--primary-lime); border-radius: 4px; transition: 1s;"></div></div>
-                    </div>
-                </div>
+            <div class="card">
+                <h2>DASHBOARD GRUPAL</h2>
+                <p>Participantes: <span id="mod-count" style="font-weight:bold;">0</span></p>
+                <div id="mod-dots-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"></div>
+                <button class="btn-primary" style="margin-top:20px;" onclick="exportData()">EXPORTAR CSV</button>
+                <button class="btn-primary" style="margin-top:10px; background:#777;" onclick="location.reload()">VOLVER</button>
             </div>
-
-           <div id="mod-dots-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;"></div>
-
-        <div style="display: flex; gap: 10px; margin-top: 20px;">
-            <button class="btn-primary" style="flex: 1;" onclick="exportData()">EXPORTAR REGISTROS (CSV)</button>
-            <button class="btn-primary" style="flex: 1; background: #777;" onclick="location.reload()">CERRAR PANEL</button>
         </div>
-    </div>
+
         <div id="screen-result" class="screen">
-            <div class="card" style="text-align: left;">
-                <h2 style="text-align: center; color: var(--primary-dark);">Diagnóstico Completado</h2>
-                <div id="individual-matrix-placeholder" style="transform: scale(0.7); margin: -40px auto;"></div>
-                <div style="padding: 20px; border-left: 8px solid var(--primary-lime); background: #f9f9f9; margin-top: 20px;">
-                    <h3 id="res-classification">Clasificación</h3>
-                    <p id="res-score-text" style="color: #666;"></p>
-                    <p id="res-action-text" style="font-size: 13pt; margin-top: 15px;"></p>
-                </div>
-                <button class="btn-primary" style="margin-top: 25px;" onclick="location.reload()">VOLVER AL INICIO</button>
+            <div class="card">
+                <h2>Diagnóstico Completado</h2>
+                <div id="individual-matrix-placeholder"></div>
+                <button class="btn-primary" onclick="location.reload()">FINALIZAR</button>
             </div>
         </div>
-
     </div>
 
-    <footer>
-        HUB Global ABECEB &copy; 2026 | Inteligencia Estratégica Aplicada
-    </footer>
+    <script>
+        // 1. BASE DE DATOS DE PREGUNTAS
+        const surveyData = [
             {
-                axis: "5. Apuesta a Largo Plazo",
+                axis: "1. Estrategia Global",
                 questions: [
-                    { id: 13, text: "Grado de apertura a nuevos modelos de negocio:", opts: [{t:0, i:0, l:"A. Business as Usual (Mantener)"}, {t:0, i:2, l:"B. Potenciar core eficientizando"}, {t:2, i:0, l:"C. Ampliar hacia modelos afines"}, {t:2, i:2, l:"D. Abrir negocios fuera del core"}] },
-                    { id: 14, text: "Esfuerzo dedicado a ventaja competitiva 2030:", opts: [{t:0, i:0, l:"A. Menos del 5% (Operativo)"}, {t:0, i:2, l:"B. 5% - 15% (Mejoras marginales)"}, {t:2, i:0, l:"C. 15% - 30% (Disrupción tech)"}, {t:2, i:2, l:"D. Más del 30% (Visión estructural)"}] },
-                    { id: 15, text: "Reconfiguración de fuerza laboral (Humano-Máquina):", opts: [{t:0, i:0, l:"A. Sin cambios en perfiles"}, {t:0, i:2, l:"B. Capacitación técnica digital"}, {t:2, i:0, l:"C. Re-skilling productivo intensivo"}, {t:2, i:2, l:"D. Roles estratégicos delegados"}] },
-                    { id: 16, text: "Atracción de talento especializado global:", opts: [{t:0, i:0, l:"A. Oferta local tradicional"}, {t:0, i:2, l:"B. Flexibilidad competitiva LATAM"}, {t:2, i:0, l:"C. Centros de excelencia propios"}, {t:2, i:2, l:"D. Redes globales de conocimiento"}] }
+                    { id: 1, text: "Visión estratégica 2026:", opts: [{t:0, i:0, l:"A. Conservadora"}, {t:2, i:2, l:"D. Innovadora"}] },
+                    { id: 2, text: "Adaptación al cambio:", opts: [{t:0, i:0, l:"A. Lenta"}, {t:2, i:2, l:"D. Ágil"}] }
+                ]
+            },
+            {
+                axis: "3. Plataforma Tecnológica",
+                questions: [
+                    { id: 7, text: "Integración de IA:", opts: [{t:0, i:0, l:"A. Sin herramientas"}, {t:2, i:2, l:"D. Modelos propios"}] },
+                    { id: 8, text: "Automatización:", opts: [{t:0, i:0, l:"A. Manual"}, {t:2, i:2, l:"D. Rediseño total"}] }
                 ]
             }
         ];
 
         let currentAnswers = {};
         let selectedCEO = "";
-        const MAX_SCORE = 32;
+
+        function switchScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function showModerator() {
+            const pass = prompt("Contraseña:");
+            if (pass === "abeceb2026") switchScreen('screen-mod');
+        }
 
         function startSurvey() {
-            const select = document.getElementById('ceo-selector');
-            if (!select.value) { alert("Por favor seleccione su nombre."); return; }
-            selectedCEO = select.value;
-            document.getElementById('user-greeting').innerText = "Bienvenido, " + selectedCEO.split(' - ')[0];
+            const sel = document.getElementById('ceo-selector');
+            if (!sel.value) return alert("Seleccione su nombre");
+            selectedCEO = sel.value;
+            document.getElementById('user-greeting').innerText = "Bienvenido, " + selectedCEO;
             renderQuestions();
             switchScreen('screen-survey');
         }
-function switchScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
-    window.scrollTo(0,0);
-}
 
-function showModerator() {
-    const pass = prompt("Contraseña de Moderador:");
-    if (pass === "abeceb2026") {
-        switchScreen('screen-mod'); 
-    } else if (pass !== null) {
-        alert("Acceso denegado");
-    }
-}
         function renderQuestions() {
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
             surveyData.forEach((axis, idx) => {
-                const section = document.createElement('div');
-                section.className = 'axis-section';
-                section.innerHTML = `<div class="axis-header" onclick="toggleAxis(${idx})"><h3>${axis.axis}</h3><span>▼</span></div>`;
+                const div = document.createElement('div');
+                div.className = 'axis-section';
+                div.innerHTML = `<div class="axis-header" onclick="document.getElementById('axis-${idx}').classList.toggle('active')">${axis.axis} <span>▼</span></div>`;
                 const content = document.createElement('div');
-                content.id = `axis-content-${idx}`;
-                content.className = 'axis-content';
-                if (idx === 0) content.classList.add('active');
+                content.id = `axis-${idx}`;
+                content.className = 'axis-content active';
                 axis.questions.forEach(q => {
-                    const qDiv = document.createElement('div');
-                    qDiv.className = 'question';
-                    qDiv.innerHTML = `<span class="q-text">${q.id}. ${q.text}</span>`;
-                    const grid = document.createElement('div');
-                    grid.className = 'options-grid';
-                    q.opts.forEach(opt => {
-                        const btn = document.createElement('button');
-                        btn.className = 'opt-btn';
-                        btn.innerText = opt.l;
-                        btn.onclick = (e) => selectOption(q.id, opt, e.target);
-                        grid.appendChild(btn);
+                    const qD = document.createElement('div');
+                    qD.innerHTML = `<p><strong>${q.id}. ${q.text}</strong></p>`;
+                    q.opts.forEach(o => {
+                        const b = document.createElement('button');
+                        b.className = 'opt-btn';
+                        b.innerText = o.l;
+                        b.onclick = (e) => {
+                            qD.querySelectorAll('.opt-btn').forEach(x => x.classList.remove('selected'));
+                            e.target.classList.add('selected');
+                            currentAnswers[q.id] = o;
+                            updateProgress();
+                        };
+                        qD.appendChild(b);
                     });
-                    qDiv.appendChild(grid);
-                    content.appendChild(qDiv);
+                    content.appendChild(qD);
                 });
-                section.appendChild(content);
-                container.appendChild(section);
+                div.appendChild(content);
+                container.appendChild(div);
             });
         }
 
-        function toggleAxis(idx) {
-            document.getElementById(`axis-content-${idx}`).classList.toggle('active');
-        }
-
-        function selectOption(qId, opt, btn) {
-            const grid = btn.parentElement;
-            grid.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
-            btn.classList.add('selected');
-            currentAnswers[qId] = opt;
-            const completed = Object.keys(currentAnswers).length;
-            document.getElementById('mainProgress').style.width = (completed / 16 * 100) + "%";
-            if (completed === 16) document.getElementById('submit-btn').style.display = "block";
+        function updateProgress() {
+            const count = Object.keys(currentAnswers).length;
+            document.getElementById('mainProgress').style.width = (count / 4 * 100) + "%"; // Ajustado a 4 preguntas de ejemplo
+            if (count >= 4) document.getElementById('submit-btn').style.display = "block";
         }
 
         async function finalSubmit() {
-            if (Object.keys(currentAnswers).length < 16) return;
-            
-            // 1. OBTENER EL BOTÓN Y BLOQUEARLO
-            const btn = document.getElementById('submit-btn');
-            btn.disabled = true;
-            btn.innerText = "ENVIANDO DATOS...";
-            btn.style.opacity = "0.5";
-            btn.style.cursor = "not-allowed";
-
-            let t = 0; let i = 0;
-            Object.values(currentAnswers).forEach(a => { t += a.t; i += a.i; });
-            
-            const { db, collection, doc, setDoc } = window.hubDB;
-            
-            const payload = { 
-                name: selectedCEO, 
-                t, 
-                i, 
-                respuestas: currentAnswers,
-                timestamp: new Date().toISOString() 
-            };
-            
-            try {
-                // 2. GUARDADO CON ID ÚNICO (Usa el nombre del CEO como ID para evitar duplicados)
-                // Reemplazamos Date.now() por un ID basado en el nombre para que no se repita
-                const docId = selectedCEO.replace(/\s+/g, '_').toLowerCase(); 
-                await setDoc(doc(collection(db, 'respuestas_ceos'), docId), payload);
-                
-                renderIndividualResult(t, i);
-                switchScreen('screen-result');
-            } catch (err) { 
-                console.error(err);
-                alert("Error al conectar con Firebase. Revisá las Reglas."); 
-                // Si falla, rehabilitamos el botón para que pueda intentar de nuevo
-                btn.disabled = false;
-                btn.innerText = "ENVIAR RESPUESTAS";
-                btn.style.opacity = "1";
-                btn.style.cursor = "pointer";
-            }
-        }
-
-        function renderIndividualResult(t, i) {
-            let classification = t > 16 ? (i > 16 ? "ESTRATÉGICA" : "EFICIENTE") : (i > 16 ? "INTEGRADA" : "ADAPTATIVA");
-            document.getElementById('res-classification').innerText = "EMPRESA " + classification;
-            document.getElementById('res-score-text').innerText = `Puntaje T: ${t} | Puntaje I: ${i}`;
-            document.getElementById('individual-matrix-placeholder').innerHTML = `
-                <div class="matrix-box">
-                    <div class="quadrant q-eficiente">EFICIENTE</div><div class="quadrant q-estrategica">ESTRATÉGICA</div>
-                    <div class="quadrant q-adaptativa">ADAPTATIVA</div><div class="quadrant q-integrada">INTEGRADA</div>
-                    <div class="dot avg-dot" style="left:${(i/MAX_SCORE*100)}%; top:${(100-(t/MAX_SCORE*100))}%;"></div>
-                </div>`;
-        }
-
-        function renderModDashboard(data) {
-    const count = data.length;
-    document.getElementById('mod-count').innerText = count;
-    if (count === 0) return;
-
-    // Buscamos el contenedor donde irán los gráficos
-    const container = document.getElementById('mod-dots-container');
-    if (!container) return; 
-    
-    // Limpiamos y preparamos el título
-    container.innerHTML = '<h3 style="grid-column: 1/-1; text-align:center; color:var(--primary-teal); margin: 20px 0;">Proporción de Respuestas por Dimensión</h3>';
-    container.style.display = "grid";
-    container.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
-    container.style.gap = "15px";
-
-    // Creamos un gráfico para cada una de las 16 preguntas
-    for (let qId = 1; qId <= 16; qId++) {
-        const counts = { A: 0, B: 0, C: 0, D: 0 };
-        
-        // Contamos cuántos CEOs eligieron cada opción
-        data.forEach(user => {
-            if (user.respuestas && user.respuestas[qId]) {
-                // Obtenemos la letra (A, B, C o D) del texto de la opción
-                const letter = user.respuestas[qId].l.charAt(0); 
-                if (counts[letter] !== undefined) counts[letter]++;
-            }
-        });
-
-        const chartCard = document.createElement('div');
-        chartCard.style.cssText = "background:white; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.05); border-top: 4px solid var(--primary-aqua);";
-        
-        let barsHtml = `<h4 style="font-size:10pt; margin-bottom:12px; color:var(--primary-dark);">Pregunta ${qId}</h4>`;
-        
-        ['A','B','C','D'].forEach(letter => {
-            const perc = (counts[letter] / count * 100).toFixed(0);
-            barsHtml += `
-                <div style="margin-bottom:8px;">
-                    <div style="display:flex; justify-content:space-between; font-size:8pt; margin-bottom:2px;">
-                        <span>Opción ${letter}</span>
-                        <span style="font-weight:bold;">${counts[letter]} (${perc}%)</span>
-                    </div>
-                    <div style="width:100%; height:8px; background:#f0f0f0; border-radius:4px; overflow:hidden;">
-                        <div style="width:${perc}%; height:100%; background:var(--primary-teal); border-radius:4px; transition: width 1s ease-in-out;"></div>
-                    </div>
-                </div>`;
-        });
-        
-        chartCard.innerHTML = barsHtml;
-        container.appendChild(chartCard);
-    }
-
-    // Actualizamos las barras de promedio generales (T e I)
-    let totalT = 0; let totalI = 0;
-    data.forEach(res => { totalT += res.t; totalI += res.i; });
-    document.getElementById('avg-t-bar').style.width = (totalT / (count * 32) * 100) + "%";
-    document.getElementById('avg-i-bar').style.width = (totalI / (count * 32) * 100) + "%";
-}
-            for (let i = 1; i <= 16; i++) {
-                const promedio = sumasPreguntas[i] / count;
-                const porcentaje = (promedio / 4) * 100; 
-
-                const chartItem = document.createElement('div');
-                chartItem.style.cssText = "background: white; padding: 12px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 5px solid var(--primary-aqua);";
-                
-                chartItem.innerHTML = `
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                        <span style="font-weight: bold; color: var(--primary-dark); font-size: 9pt;">Pregunta ${i}</span>
-                        <span style="color: var(--primary-teal); font-weight: bold; font-size: 9pt;">${promedio.toFixed(1)}</span>
-                    </div>
-                    <div style="width: 100%; height: 8px; background: #eee; border-radius: 4px; overflow: hidden;">
-                        <div style="width: ${porcentaje}%; height: 100%; background: var(--primary-teal); transition: width 1s;"></div>
-                    </div>
-                `;
-                container.appendChild(chartItem);
-            }
-
-            let totalT = 0; let totalI = 0;
-            data.forEach(res => { totalT += res.t; totalI += res.i; });
-            document.getElementById('avg-t-bar').style.width = (totalT / (count * 32) * 100) + "%";
-            document.getElementById('avg-i-bar').style.width = (totalI / (count * 32) * 100) + "%";
-            
-            data.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-            const firstName = data[0].name ? data[0].name.split(' - ')[0] : "Participante";
-            document.getElementById('mod-last-name').innerText = "Último: " + firstName;
+            // Aquí iría tu código de Firebase
+            alert("Enviando datos de " + selectedCEO);
+            switchScreen('screen-result');
         }
 
         async function exportData() {
-            const { db, collection, getDocs } = window.hubDB;
-            const snap = await getDocs(collection(db, 'respuestas_ceos'));
-            let csv = "CEO,Puntaje T,Puntaje I,Fecha\n";
-            snap.forEach(doc => {
-                const d = doc.data();
-                csv += `"${d.name}",${d.t},${d.i},${d.timestamp}\n`;
-            });
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.setAttribute('href', url);
-            a.setAttribute('download', 'resultados_workshop.csv');
-            a.click();
-        }
-// --- AQUÍ RECONSTRUIMOS EL SURVEYDATA QUE FALTA ---
-        const surveyData = [
-            {
-                axis: "3. Plataforma Tecnológica",
-                questions: [
-                    { id: 7, text: "Integración de IA y modelos de lenguaje:", opts: [{t:0, i:0, l:"A. Sin herramientas"}, {t:0, i:2, l:"B. Herramientas genéricas"}, {t:2, i:0, l:"C. IA específica"}, {t:2, i:2, l:"D. Modelos propios"}] },
-                    { id: 8, text: "Productividad y Automatización:", opts: [{t:0, i:0, l:"A. Manuales"}, {t:0, i:2, l:"B. Básica"}, {t:2, i:0, l:"C. Profunda"}, {t:2, i:2, l:"D. Rediseño total"}] },
-                    { id: 9, text: "Ciberseguridad ante IA:", opts: [{t:0, i:0, l:"A. Reactiva"}, {t:0, i:2, l:"B. Certificaciones"}, {t:2, i:0, l:"C. IA defensiva"}, {t:2, i:2, l:"D. Zero Trust"}] }
-                ]
-            },
-            {
-                axis: "4. Acceso Regulatorio",
-                questions: [
-                    { id: 10, text: "Marcos regulatorios globales:", opts: [{t:0, i:0, l:"A. Desconocimiento"}, {t:0, i:2, l:"B. Adaptación mínima"}, {t:2, i:0, l:"C. Innovación"}, {t:2, i:2, l:"D. Proactiva"}] },
-                    { id: 11, text: "Estrategia ESG:", opts: [{t:0, i:0, l:"A. Sin definición"}, {t:0, i:2, l:"B. Básica"}, {t:2, i:0, l:"C. Parcial"}, {t:2, i:2, l:"D. Auditada"}] },
-                    { id: 12, text: "Ética de IA (Directorio):", opts: [{t:0, i:0, l:"A. Fuera de agenda"}, {t:0, i:2, l:"B. Básico"}, {t:2, i:0, l:"C. Políticas claras"}, {t:2, i:2, l:"D. Foros globales"}] }
-                ]
-            }
-        ];
-
-        // --- FUNCIÓN PARA MOSTRAR LOS GRÁFICOS ---
-        function renderModDashboard(data) {
-            const count = data.length;
-            document.getElementById('mod-count').innerText = count;
-            const container = document.getElementById('mod-dots-container');
-            if (!container) return;
-            container.innerHTML = '<h3 style="grid-column: 1/-1; text-align:center;">Resultados</h3>';
-            // (Aquí podrías poner el resto de la lógica de gráficos)
+            alert("Generando CSV...");
         }
     </script>
 </body>
