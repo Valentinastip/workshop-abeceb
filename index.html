@@ -164,24 +164,6 @@
     <footer>
         HUB Global ABECEB &copy; 2026 | Inteligencia Estratégica Aplicada
     </footer>
-
-    
-            {
-                axis: "3. Plataforma Tecnológica",
-                questions: [
-                    { id: 7, text: "Integración de IA y modelos de lenguaje en procesos core:", opts: [{t:0, i:0, l:"A. Sin herramientas de IA críticas"}, {t:0, i:2, l:"B. Uso de herramientas genéricas"}, {t:2, i:0, l:"C. IA específica para producción"}, {t:2, i:2, l:"D. Orquestación de modelos propios"}] },
-                    { id: 8, text: "Productividad y Automatización de recursos:", opts: [{t:0, i:0, l:"A. Procesos manuales predominantes"}, {t:0, i:2, l:"B. Business as Usual con automatización"}, {t:2, i:0, l:"C. Automatización profunda del capital"}, {t:2, i:2, l:"D. Rediseño total humano-máquina"}] },
-                    { id: 9, text: "Gestión del riesgo de ciberseguridad ante IA:", opts: [{t:0, i:0, l:"A. Protecciones estándar reactivas"}, {t:0, i:2, l:"B. Certificaciones internacionales"}, {t:2, i:0, l:"C. IA defensiva en tiempo real"}, {t:2, i:2, l:"D. Estrategia Confianza Cero nativa"}] }
-                ]
-            },
-            {
-                axis: "4. Acceso Regulatorio",
-                questions: [
-                    { id: 10, text: "Posicionamiento ante marcos regulatorios globales:", opts: [{t:0, i:0, l:"A. Desconocimiento del impacto"}, {t:0, i:2, l:"B. Adaptación mínima para acceso"}, {t:2, i:0, l:"C. Cumplimiento como innovación"}, {t:2, i:2, l:"D. Adopción proactiva premium"}] },
-                    { id: 11, text: "Grado de avance en su estrategia ESG:", opts: [{t:0, i:0, l:"A. Sin estrategia definida"}, {t:0, i:2, l:"B. Objetivos de cumplimiento básico"}, {t:2, i:0, l:"C. Ejecución parcial con eficiencia"}, {t:2, i:2, l:"D. Estrategia consolidada y auditada"}] },
-                    { id: 12, text: "Nivel de alfabetización en ética de IA (Directorio):", opts: [{t:0, i:0, l:"A. No forma parte de la agenda"}, {t:0, i:2, l:"B. Conocimiento básico privacidad"}, {t:2, i:0, l:"C. Políticas claras responsables"}, {t:2, i:2, l:"D. Participación en foros globales"}] }
-                ]
-            },
             {
                 axis: "5. Apuesta a Largo Plazo",
                 questions: [
@@ -210,14 +192,7 @@ function switchScreen(screenId) {
     document.getElementById(screenId).classList.add('active');
     window.scrollTo(0,0);
 }
-    // ... línea 208
-function switchScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
-    window.scrollTo(0,0);
-} // <--- Esta es la línea 212 de tu captura
 
-// ACÁ PEGAS EL NUEVO CÓDIGO:
 function showModerator() {
     const pass = prompt("Contraseña de Moderador:");
     if (pass === "abeceb2026") {
@@ -327,28 +302,62 @@ function showModerator() {
         }
 
         function renderModDashboard(data) {
-            const count = data.length;
-            document.getElementById('mod-count').innerText = count;
-            if (count === 0) return;
+    const count = data.length;
+    document.getElementById('mod-count').innerText = count;
+    if (count === 0) return;
 
-            const container = document.getElementById('mod-charts-container');
-            if (!container) return; 
-            container.innerHTML = ''; 
+    // Buscamos el contenedor donde irán los gráficos
+    const container = document.getElementById('mod-dots-container');
+    if (!container) return; 
+    
+    // Limpiamos y preparamos el título
+    container.innerHTML = '<h3 style="grid-column: 1/-1; text-align:center; color:var(--primary-teal); margin: 20px 0;">Proporción de Respuestas por Dimensión</h3>';
+    container.style.display = "grid";
+    container.style.gridTemplateColumns = "repeat(auto-fit, minmax(250px, 1fr))";
+    container.style.gap = "15px";
 
-            let sumasPreguntas = {};
-            for (let i = 1; i <= 16; i++) sumasPreguntas[i] = 0;
+    // Creamos un gráfico para cada una de las 16 preguntas
+    for (let qId = 1; qId <= 16; qId++) {
+        const counts = { A: 0, B: 0, C: 0, D: 0 };
+        
+        // Contamos cuántos CEOs eligieron cada opción
+        data.forEach(user => {
+            if (user.respuestas && user.respuestas[qId]) {
+                // Obtenemos la letra (A, B, C o D) del texto de la opción
+                const letter = user.respuestas[qId].l.charAt(0); 
+                if (counts[letter] !== undefined) counts[letter]++;
+            }
+        });
 
-            data.forEach(res => {
-                if(res.respuestas) {
-                    for (let i = 1; i <= 16; i++) {
-                        if(res.respuestas[i]) {
-                            const pts = (res.respuestas[i].t + res.respuestas[i].i);
-                            sumasPreguntas[i] += pts;
-                        }
-                    }
-                }
-            });
+        const chartCard = document.createElement('div');
+        chartCard.style.cssText = "background:white; padding:15px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.05); border-top: 4px solid var(--primary-aqua);";
+        
+        let barsHtml = `<h4 style="font-size:10pt; margin-bottom:12px; color:var(--primary-dark);">Pregunta ${qId}</h4>`;
+        
+        ['A','B','C','D'].forEach(letter => {
+            const perc = (counts[letter] / count * 100).toFixed(0);
+            barsHtml += `
+                <div style="margin-bottom:8px;">
+                    <div style="display:flex; justify-content:space-between; font-size:8pt; margin-bottom:2px;">
+                        <span>Opción ${letter}</span>
+                        <span style="font-weight:bold;">${counts[letter]} (${perc}%)</span>
+                    </div>
+                    <div style="width:100%; height:8px; background:#f0f0f0; border-radius:4px; overflow:hidden;">
+                        <div style="width:${perc}%; height:100%; background:var(--primary-teal); border-radius:4px; transition: width 1s ease-in-out;"></div>
+                    </div>
+                </div>`;
+        });
+        
+        chartCard.innerHTML = barsHtml;
+        container.appendChild(chartCard);
+    }
 
+    // Actualizamos las barras de promedio generales (T e I)
+    let totalT = 0; let totalI = 0;
+    data.forEach(res => { totalT += res.t; totalI += res.i; });
+    document.getElementById('avg-t-bar').style.width = (totalT / (count * 32) * 100) + "%";
+    document.getElementById('avg-i-bar').style.width = (totalI / (count * 32) * 100) + "%";
+}
             for (let i = 1; i <= 16; i++) {
                 const promedio = sumasPreguntas[i] / count;
                 const porcentaje = (promedio / 4) * 100; 
@@ -393,6 +402,22 @@ function showModerator() {
             a.setAttribute('download', 'resultados_workshop.csv');
             a.click();
         }
-    </script>
-</body>
+                {
+                axis: "3. Plataforma Tecnológica",
+                questions: [
+                    { id: 7, text: "Integración de IA y modelos de lenguaje en procesos core:", opts: [{t:0, i:0, l:"A. Sin herramientas de IA críticas"}, {t:0, i:2, l:"B. Uso de herramientas genéricas"}, {t:2, i:0, l:"C. IA específica para producción"}, {t:2, i:2, l:"D. Orquestación de modelos propios"}] },
+                    { id: 8, text: "Productividad y Automatización de recursos:", opts: [{t:0, i:0, l:"A. Procesos manuales predominantes"}, {t:0, i:2, l:"B. Business as Usual con automatización"}, {t:2, i:0, l:"C. Automatización profunda del capital"}, {t:2, i:2, l:"D. Rediseño total humano-máquina"}] },
+                    { id: 9, text: "Gestión del riesgo de ciberseguridad ante IA:", opts: [{t:0, i:0, l:"A. Protecciones estándar reactivas"}, {t:0, i:2, l:"B. Certificaciones internacionales"}, {t:2, i:0, l:"C. IA defensiva en tiempo real"}, {t:2, i:2, l:"D. Estrategia Confianza Cero nativa"}] }
+                ]
+            },
+            {
+                axis: "4. Acceso Regulatorio",
+                questions: [
+                    { id: 10, text: "Posicionamiento ante marcos regulatorios globales:", opts: [{t:0, i:0, l:"A. Desconocimiento del impacto"}, {t:0, i:2, l:"B. Adaptación mínima para acceso"}, {t:2, i:0, l:"C. Cumplimiento como innovación"}, {t:2, i:2, l:"D. Adopción proactiva premium"}] },
+                    { id: 11, text: "Grado de avance en su estrategia ESG:", opts: [{t:0, i:0, l:"A. Sin estrategia definida"}, {t:0, i:2, l:"B. Objetivos de cumplimiento básico"}, {t:2, i:0, l:"C. Ejecución parcial con eficiencia"}, {t:2, i:2, l:"D. Estrategia consolidada y auditada"}] },
+                    { id: 12, text: "Nivel de alfabetización en ética de IA (Directorio):", opts: [{t:0, i:0, l:"A. No forma parte de la agenda"}, {t:0, i:2, l:"B. Conocimiento básico privacidad"}, {t:2, i:0, l:"C. Políticas claras responsables"}, {t:2, i:2, l:"D. Participación en foros globales"}] }
+                ]
+            },
+    </script> 
+    </body>
 </html>
