@@ -171,21 +171,13 @@
                 </div>
             </div>
 
-            <div class="matrix-box">
-                <div class="quadrant q-eficiente">EFICIENTE</div>
-                <div class="quadrant q-estrategica">ESTRATÉGICA</div>
-                <div class="quadrant q-adaptativa">ADAPTATIVA</div>
-                <div class="quadrant q-integrada">INTEGRADA</div>
-                <div id="mod-dots-container"></div>
-                <div id="mod-avg-dot" class="dot avg-dot" style="display: none;"></div>
-            </div>
+           <div id="mod-charts-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;"></div>
 
-            <div style="display: flex; gap: 10px; margin-top: 20px;">
-                <button class="btn-primary" style="flex: 1;" onclick="exportData()">EXPORTAR REGISTROS (CSV)</button>
-                <button class="btn-primary" style="flex: 1; background: #777;" onclick="location.reload()">CERRAR PANEL</button>
-            </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button class="btn-primary" style="flex: 1;" onclick="exportData()">EXPORTAR REGISTROS (CSV)</button>
+            <button class="btn-primary" style="flex: 1; background: #777;" onclick="location.reload()">CERRAR PANEL</button>
         </div>
-
+    </div>
         <div id="screen-result" class="screen">
             <div class="card" style="text-align: left;">
                 <h2 style="text-align: center; color: var(--primary-dark);">Diagnóstico Completado</h2>
@@ -373,24 +365,55 @@
             });
         }
 
-        function renderModDashboard(data) {
+      function renderModDashboard(data) {
             const count = data.length;
             document.getElementById('mod-count').innerText = count;
             if (count === 0) return;
-            const container = document.getElementById('mod-dots-container');
-            container.innerHTML = '';
-            let sumT = 0; let sumI = 0;
-            data.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-            document.getElementById('mod-last-name').innerText = "Último: " + data[0].name.split(' - ')[0];
+
+            const container = document.getElementById('mod-charts-container');
+            if (!container) return; 
+            container.innerHTML = ''; 
+
+            let sumasPreguntas = {};
+            for (let i = 1; i <= 16; i++) sumasPreguntas[i] = 0;
+
             data.forEach(res => {
-                sumT += res.t; sumI += res.i;
-                const dot = document.createElement('div');
-                dot.className = 'dot';
-                dot.style.background = 'var(--primary-aqua)';
-                dot.style.left = (res.i / MAX_SCORE * 100) + "%";
-                dot.style.top = (100 - (res.t / MAX_SCORE * 100)) + "%";
-                container.appendChild(dot);
+                for (let i = 1; i <= 16; i++) {
+                    if(res.respuestas && res.respuestas[i]) {
+                        const pts = (res.respuestas[i].t + res.respuestas[i].i);
+                        sumasPreguntas[i] += pts;
+                    }
+                }
             });
+
+            for (let i = 1; i <= 16; i++) {
+                const promedio = sumasPreguntas[i] / count;
+                const porcentaje = (promedio / 4) * 100; 
+
+                const chartItem = document.createElement('div');
+                chartItem.style.cssText = "background: white; padding: 12px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 5px solid var(--primary-aqua);";
+                
+                chartItem.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="font-weight: bold; color: var(--primary-dark); font-size: 9pt;">Pregunta ${i}</span>
+                        <span style="color: var(--primary-teal); font-weight: bold; font-size: 9pt;">${promedio.toFixed(1)}</span>
+                    </div>
+                    <div style="width: 100%; height: 8px; background: #eee; border-radius: 4px; overflow: hidden;">
+                        <div style="width: ${porcentaje}%; height: 100%; background: var(--primary-teal); transition: width 1s;"></div>
+                    </div>
+                `;
+                container.appendChild(chartItem);
+            }
+
+            let totalT = 0; let totalI = 0;
+            data.forEach(res => { totalT += res.t; totalI += res.i; });
+            document.getElementById('avg-t-bar').style.width = (totalT / (count * 32) * 100) + "%";
+            document.getElementById('avg-i-bar').style.width = (totalI / (count * 32) * 100) + "%";
+            
+            data.sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+            const firstName = data[0].name ? data[0].name.split(' - ')[0] : "Participante";
+            document.getElementById('mod-last-name').innerText = "Último: " + firstName;
+        }
             const avgT = sumT / count; const avgI = sumI / count;
             document.getElementById('avg-t-bar').style.width = (avgT / MAX_SCORE * 100) + "%";
             document.getElementById('avg-i-bar').style.width = (avgI / MAX_SCORE * 100) + "%";
