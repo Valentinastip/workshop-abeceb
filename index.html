@@ -4,39 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HUB Global ABECEB | Workshop 2026</title>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDocs, collection, onSnapshot, query } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        // TU CONFIGURACIÓN REAL INTEGRADA
-        const firebaseConfig = {
-            apiKey: "AIzaSyDmmeR2TtpiSbsZT6lWCHBNDIxSsbxmPKg",
-            authDomain: "abeceb---workshop.firebaseapp.com",
-            projectId: "abeceb---workshop",
-            storageBucket: "abeceb---workshop.firebasestorage.app",
-            messagingSenderId: "95532130142",
-            appId: "1:95532130142:web:ad11e13f1b2d94c4aa79cf",
-            measurementId: "G-Q5GER2M6KL"
-        };
-        
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        // Exportar a window para mantener tu lógica de componentes
-        window.hubDB = { db, auth, collection, doc, setDoc, getDocs, onSnapshot, query, appId: "abeceb-workshop-2026", signInAnonymously };
-
-        const initAuth = async () => {
-            try {
-                await signInAnonymously(auth);
-                console.log("Conectado a Firebase ABECEB");
-            } catch (error) {
-                console.error("Error de autenticación:", error);
-            }
-        };
-        initAuth();
-    </script>
+   
     <style>
         :root {
             --primary-dark: #293945;
@@ -197,25 +165,7 @@
         HUB Global ABECEB &copy; 2026 | Inteligencia Estratégica Aplicada
     </footer>
 
-    <script>
-        // CONFIGURACIÓN DE LAS 16 PREGUNTAS
-        const surveyData = [
-            {
-                axis: "1. Geografía Estratégica",
-                questions: [
-                    { id: 1, text: "¿A qué mercados orienta su oferta actual?", opts: [{t:0, i:0, l:"A. Mercado interno (Argentina)"}, {t:0, i:2, l:"B. Argentina y países limítrofes"}, {t:2, i:0, l:"C. América Latina (LATAM)"}, {t:2, i:2, l:"D. Mercado global (Mundo)"}] },
-                    { id: 2, text: "¿Cómo gestiona la provisión de tecnología ante tensiones geopolíticas?", opts: [{t:0, i:0, l:"A. Disponibilidad inmediata mercado local"}, {t:0, i:2, l:"B. Búsqueda nuevos acuerdos comerciales"}, {t:2, i:0, l:"C. Priorización tecnológica (riesgo)"}, {t:2, i:2, l:"D. Matriz diversificada y stock"}] },
-                    { id: 3, text: "Estrategia de soberanía de datos e infraestructura:", opts: [{t:0, i:0, l:"A. Sin consideración geográfica"}, {t:0, i:2, l:"B. Almacenamiento regional (compliance)"}, {t:2, i:0, l:"C. Nubes privadas con control interno"}, {t:2, i:2, l:"D. Arquitecturas híbridas globales"}] }
-                ]
-            },
-            {
-                axis: "2. Seguridad de Suministro",
-                questions: [
-                    { id: 4, text: "Resiliencia en insumos clave (materias primas, energía):", opts: [{t:0, i:0, l:"A. Proveedores únicos / spot"}, {t:0, i:2, l:"B. Integración regional / largo plazo"}, {t:2, i:0, l:"C. Eficiencia interna y sustitución"}, {t:2, i:2, l:"D. Co-inversión en ecosistemas"}] },
-                    { id: 5, text: "Mitigación ante alza de costos en servicios globales:", opts: [{t:0, i:0, l:"A. Absorción del incremento"}, {t:0, i:2, l:"B. Optimización logística y contratos"}, {t:2, i:0, l:"C. Automatización para ahorro capital"}, {t:2, i:2, l:"D. Autogeneración o low-energy"}] },
-                    { id: 6, text: "Protección ante contingencias de infraestructura:", opts: [{t:0, i:0, l:"A. Seguros básicos tradicionales"}, {t:0, i:2, l:"B. Ajustes por historial regional"}, {t:2, i:0, l:"C. Modelos predictivos y mitigación"}, {t:2, i:2, l:"D. Red productiva resiliente"}] }
-                ]
-            },
+    
             {
                 axis: "3. Plataforma Tecnológica",
                 questions: [
@@ -259,6 +209,22 @@ function switchScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
     window.scrollTo(0,0);
+}
+    // ... línea 208
+function switchScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screenId).classList.add('active');
+    window.scrollTo(0,0);
+} // <--- Esta es la línea 212 de tu captura
+
+// ACÁ PEGAS EL NUEVO CÓDIGO:
+function showModerator() {
+    const pass = prompt("Contraseña de Moderador:");
+    if (pass === "abeceb2026") {
+        switchScreen('screen-mod'); 
+    } else if (pass !== null) {
+        alert("Acceso denegado");
+    }
 }
         function renderQuestions() {
             const container = document.getElementById('questions-container');
@@ -358,21 +324,6 @@ function switchScreen(screenId) {
                     <div class="quadrant q-adaptativa">ADAPTATIVA</div><div class="quadrant q-integrada">INTEGRADA</div>
                     <div class="dot avg-dot" style="left:${(i/MAX_SCORE*100)}%; top:${(100-(t/MAX_SCORE*100))}%;"></div>
                 </div>`;
-        }
-
-        function showModerator() {
-            const pass = prompt("Contraseña de Moderador:");
-            if (pass === "abeceb2026") {
-                switchScreen('screen-mod');
-                const { db, collection, query, onSnapshot } = window.hubDB;
-                onSnapshot(query(collection(db, 'respuestas_ceos')), (snapshot) => {
-                    const data = [];
-                    snapshot.forEach(doc => data.push(doc.data()));
-                    renderModDashboard(data);
-                });
-            } else {
-                alert("Acceso denegado");
-            }
         }
 
         function renderModDashboard(data) {
