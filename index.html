@@ -171,7 +171,7 @@
                 </div>
             </div>
 
-           <div id="mod-charts-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;"></div>
+           <div id="mod-dots-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px;"></div>
 
         <div style="display: flex; gap: 10px; margin-top: 20px;">
             <button class="btn-primary" style="flex: 1;" onclick="exportData()">EXPORTAR REGISTROS (CSV)</button>
@@ -255,7 +255,11 @@
             renderQuestions();
             switchScreen('screen-survey');
         }
-
+function switchScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(screenId).classList.add('active');
+    window.scrollTo(0,0);
+}
         function renderQuestions() {
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
