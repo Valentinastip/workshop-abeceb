@@ -402,22 +402,35 @@ function showModerator() {
             a.setAttribute('download', 'resultados_workshop.csv');
             a.click();
         }
-                {
+// --- AQUÍ RECONSTRUIMOS EL SURVEYDATA QUE FALTA ---
+        const surveyData = [
+            {
                 axis: "3. Plataforma Tecnológica",
                 questions: [
-                    { id: 7, text: "Integración de IA y modelos de lenguaje en procesos core:", opts: [{t:0, i:0, l:"A. Sin herramientas de IA críticas"}, {t:0, i:2, l:"B. Uso de herramientas genéricas"}, {t:2, i:0, l:"C. IA específica para producción"}, {t:2, i:2, l:"D. Orquestación de modelos propios"}] },
-                    { id: 8, text: "Productividad y Automatización de recursos:", opts: [{t:0, i:0, l:"A. Procesos manuales predominantes"}, {t:0, i:2, l:"B. Business as Usual con automatización"}, {t:2, i:0, l:"C. Automatización profunda del capital"}, {t:2, i:2, l:"D. Rediseño total humano-máquina"}] },
-                    { id: 9, text: "Gestión del riesgo de ciberseguridad ante IA:", opts: [{t:0, i:0, l:"A. Protecciones estándar reactivas"}, {t:0, i:2, l:"B. Certificaciones internacionales"}, {t:2, i:0, l:"C. IA defensiva en tiempo real"}, {t:2, i:2, l:"D. Estrategia Confianza Cero nativa"}] }
+                    { id: 7, text: "Integración de IA y modelos de lenguaje:", opts: [{t:0, i:0, l:"A. Sin herramientas"}, {t:0, i:2, l:"B. Herramientas genéricas"}, {t:2, i:0, l:"C. IA específica"}, {t:2, i:2, l:"D. Modelos propios"}] },
+                    { id: 8, text: "Productividad y Automatización:", opts: [{t:0, i:0, l:"A. Manuales"}, {t:0, i:2, l:"B. Básica"}, {t:2, i:0, l:"C. Profunda"}, {t:2, i:2, l:"D. Rediseño total"}] },
+                    { id: 9, text: "Ciberseguridad ante IA:", opts: [{t:0, i:0, l:"A. Reactiva"}, {t:0, i:2, l:"B. Certificaciones"}, {t:2, i:0, l:"C. IA defensiva"}, {t:2, i:2, l:"D. Zero Trust"}] }
                 ]
             },
             {
                 axis: "4. Acceso Regulatorio",
                 questions: [
-                    { id: 10, text: "Posicionamiento ante marcos regulatorios globales:", opts: [{t:0, i:0, l:"A. Desconocimiento del impacto"}, {t:0, i:2, l:"B. Adaptación mínima para acceso"}, {t:2, i:0, l:"C. Cumplimiento como innovación"}, {t:2, i:2, l:"D. Adopción proactiva premium"}] },
-                    { id: 11, text: "Grado de avance en su estrategia ESG:", opts: [{t:0, i:0, l:"A. Sin estrategia definida"}, {t:0, i:2, l:"B. Objetivos de cumplimiento básico"}, {t:2, i:0, l:"C. Ejecución parcial con eficiencia"}, {t:2, i:2, l:"D. Estrategia consolidada y auditada"}] },
-                    { id: 12, text: "Nivel de alfabetización en ética de IA (Directorio):", opts: [{t:0, i:0, l:"A. No forma parte de la agenda"}, {t:0, i:2, l:"B. Conocimiento básico privacidad"}, {t:2, i:0, l:"C. Políticas claras responsables"}, {t:2, i:2, l:"D. Participación en foros globales"}] }
+                    { id: 10, text: "Marcos regulatorios globales:", opts: [{t:0, i:0, l:"A. Desconocimiento"}, {t:0, i:2, l:"B. Adaptación mínima"}, {t:2, i:0, l:"C. Innovación"}, {t:2, i:2, l:"D. Proactiva"}] },
+                    { id: 11, text: "Estrategia ESG:", opts: [{t:0, i:0, l:"A. Sin definición"}, {t:0, i:2, l:"B. Básica"}, {t:2, i:0, l:"C. Parcial"}, {t:2, i:2, l:"D. Auditada"}] },
+                    { id: 12, text: "Ética de IA (Directorio):", opts: [{t:0, i:0, l:"A. Fuera de agenda"}, {t:0, i:2, l:"B. Básico"}, {t:2, i:0, l:"C. Políticas claras"}, {t:2, i:2, l:"D. Foros globales"}] }
                 ]
-            },
-    </script> 
-    </body>
+            }
+        ];
+
+        // --- FUNCIÓN PARA MOSTRAR LOS GRÁFICOS ---
+        function renderModDashboard(data) {
+            const count = data.length;
+            document.getElementById('mod-count').innerText = count;
+            const container = document.getElementById('mod-dots-container');
+            if (!container) return;
+            container.innerHTML = '<h3 style="grid-column: 1/-1; text-align:center;">Resultados</h3>';
+            // (Aquí podrías poner el resto de la lógica de gráficos)
+        }
+    </script>
+</body>
 </html>
