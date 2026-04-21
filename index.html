@@ -357,15 +357,21 @@
         }
 
         function showModerator() {
-            switchScreen('screen-mod');
-            const { db, collection, query, onSnapshot } = window.hubDB;
-            onSnapshot(query(collection(db, 'respuestas_ceos')), (snapshot) => {
-                const data = []; snapshot.forEach(doc => data.push(doc.data()));
-                renderModDashboard(data);
-            });
+            const pass = prompt("Contraseña de Moderador:");
+            if (pass === "abeceb2026") {
+                switchScreen('screen-mod');
+                const { db, collection, query, onSnapshot } = window.hubDB;
+                onSnapshot(query(collection(db, 'respuestas_ceos')), (snapshot) => {
+                    const data = [];
+                    snapshot.forEach(doc => data.push(doc.data()));
+                    renderModDashboard(data);
+                });
+            } else {
+                alert("Acceso denegado");
+            }
         }
 
-      function renderModDashboard(data) {
+        function renderModDashboard(data) {
             const count = data.length;
             document.getElementById('mod-count').innerText = count;
             if (count === 0) return;
@@ -378,10 +384,12 @@
             for (let i = 1; i <= 16; i++) sumasPreguntas[i] = 0;
 
             data.forEach(res => {
-                for (let i = 1; i <= 16; i++) {
-                    if(res.respuestas && res.respuestas[i]) {
-                        const pts = (res.respuestas[i].t + res.respuestas[i].i);
-                        sumasPreguntas[i] += pts;
+                if(res.respuestas) {
+                    for (let i = 1; i <= 16; i++) {
+                        if(res.respuestas[i]) {
+                            const pts = (res.respuestas[i].t + res.respuestas[i].i);
+                            sumasPreguntas[i] += pts;
+                        }
                     }
                 }
             });
@@ -414,35 +422,21 @@
             const firstName = data[0].name ? data[0].name.split(' - ')[0] : "Participante";
             document.getElementById('mod-last-name').innerText = "Último: " + firstName;
         }
-            const avgT = sumT / count; const avgI = sumI / count;
-            document.getElementById('avg-t-bar').style.width = (avgT / MAX_SCORE * 100) + "%";
-            document.getElementById('avg-i-bar').style.width = (avgI / MAX_SCORE * 100) + "%";
-            const avgDot = document.getElementById('mod-avg-dot');
-            avgDot.style.display = 'block';
-            avgDot.style.left = (avgI / MAX_SCORE * 100) + "%";
-            avgDot.style.top = (100 - (avgT / MAX_SCORE * 100)) + "%";
-        }
 
         async function exportData() {
             const { db, collection, getDocs } = window.hubDB;
-            const snapshot = await getDocs(collection(db, 'respuestas_ceos'));
-            let csv = "Nombre,Puntaje_T,Puntaje_I,Fecha\n";
-            snapshot.forEach(doc => {
+            const snap = await getDocs(collection(db, 'respuestas_ceos'));
+            let csv = "CEO,Puntaje T,Puntaje I,Fecha\n";
+            snap.forEach(doc => {
                 const d = doc.data();
-                csv += `"${d.name}",${d.t},${d.i},"${d.timestamp}"\n`;
+                csv += `"${d.name}",${d.t},${d.i},${d.timestamp}\n`;
             });
             const blob = new Blob([csv], { type: 'text/csv' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = url;
-            a.download = `Workshop_ABECEB_Resultados.csv`;
+            a.setAttribute('href', url);
+            a.setAttribute('download', 'resultados_workshop.csv');
             a.click();
-        }
-
-        function switchScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            window.scrollTo(0,0);
         }
     </script>
 </body>
