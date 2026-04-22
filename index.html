@@ -129,7 +129,6 @@ const db = getFirestore(app);
                     { id: 4, text: "Resiliencia en insumos clave (materias primas, energía):", opts: [{t:0, i:0, l:"A. Proveedores únicos / spot"}, {t:0, i:2, l:"B. Integración regional / largo plazo"}, {t:2, i:0, l:"C. Eficiencia interna y sustitución"}, {t:2, i:2, l:"D. Co-inversión en ecosistemas"}] },
                     { id: 5, text: "Mitigación ante alza de costos en servicios globales:", opts: [{t:0, i:0, l:"A. Absorción del incremento"}, {t:0, i:2, l:"B. Optimización logística y contratos"}, {t:2, i:0, l:"C. Automatización para ahorro capital"}, {t:2, i:2, l:"D. Autogeneración o low-energy"}] },
                     { id: 6, text: "Protección ante contingencias de infraestructura:", opts: [{t:0, i:0, l:"A. Seguros básicos tradicionales"}, {t:0, i:2, l:"B. Ajustes por historial regional"}, {t:2, i:0, l:"C. Modelos predictivos y mitigación"}, {t:2, i:2, l:"D. Red productiva resiliente"}] }
-                    { id: 6, text: "Protección ante contingencias de infraestructura:", opts: [{t:0, i:0, l:"A. Seguros básicos tradicionales"}, {t:0, i:2, l:"B. Ajustes por historial regional"}, {t:2, i:0, l:"C. Modelos predictivos y mitigación"}, {t:2, i:2, l:"D. Red productiva resiliente"}] }
                 ]
             },
             {
@@ -137,14 +136,12 @@ const db = getFirestore(app);
                 questions: [
                     { id: 7, text: "Integración de IA y modelos de lenguaje en procesos core:", opts: [{t:0, i:0, l:"A. Sin herramientas de IA críticas"}, {t:0, i:2, l:"B. Uso de herramientas genéricas"}, {t:2, i:0, l:"C. IA específica para producción"}, {t:2, i:2, l:"D. Orquestación de modelos propios"}] },
                     { id: 8, text: "Productividad y Automatización de recursos:", opts: [{t:0, i:0, l:"A. Procesos manuales predominantes"}, {t:0, i:2, l:"B. Business as Usual con automatización"}, {t:2, i:0, l:"C. Automatización profunda del capital"}, {t:2, i:2, l:"D. Rediseño total humano-máquina"}] },
-                    { id: 8, text: "Productividad y Automatización de recursos:", opts: [{t:0, i:0, l:"A. Procesos manuales predominantes"}, {t:0, i:2, l:"B. Business as Usual con automatización"}, {t:2, i:0, l:"C. Automatización profunda del capital"}, {t:2, i:2, l:"D. Rediseño total humano-máquina"}] },
                     { id: 9, text: "Gestión del riesgo de ciberseguridad ante IA:", opts: [{t:0, i:0, l:"A. Protecciones estándar reactivas"}, {t:0, i:2, l:"B. Certificaciones internacionales"}, {t:2, i:0, l:"C. IA defensiva en tiempo real"}, {t:2, i:2, l:"D. Estrategia Confianza Cero nativa"}] }
                 ]
             },
             {
                 axis: "4. Acceso Regulatorio",
                 questions: [
-                    { id: 10, text: "Posicionamiento ante marcos regulatorios globales:", opts: [{t:0, i:0, l:"A. Desconocimiento del impacto"}, {t:0, i:2, l:"B. Adaptación mínima para acceso"}, {t:2, i:0, l:"C. Cumplimiento como innovación"}, {t:2, i:2, l:"D. Adopción proactiva premium"}] },
                     { id: 10, text: "Posicionamiento ante marcos regulatorios globales:", opts: [{t:0, i:0, l:"A. Desconocimiento del impacto"}, {t:0, i:2, l:"B. Adaptación mínima para acceso"}, {t:2, i:0, l:"C. Cumplimiento como innovación"}, {t:2, i:2, l:"D. Adopción proactiva premium"}] },
                     { id: 11, text: "Grado de avance en su estrategia ESG:", opts: [{t:0, i:0, l:"A. Sin estrategia definida"}, {t:0, i:2, l:"B. Objetivos de cumplimiento básico"}, {t:2, i:0, l:"C. Ejecución parcial con eficiencia"}, {t:2, i:2, l:"D. Estrategia consolidada y auditada"}] },
                     { id: 12, text: "Nivel de alfabetización en ética de IA (Directorio):", opts: [{t:0, i:0, l:"A. No forma parte de la agenda"}, {t:0, i:2, l:"B. Conocimiento básico privacidad"}, {t:2, i:0, l:"C. Políticas claras responsables"}, {t:2, i:2, l:"D. Participación en foros globales"}] }
@@ -163,7 +160,7 @@ const db = getFirestore(app);
         let currentAnswers = {};
         let selectedCEO = "";
 
-        function switchScreen(id) {
+window.switchScreen = function(id) {           
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             window.scrollTo(0,0);
@@ -183,7 +180,7 @@ const db = getFirestore(app);
             switchScreen('screen-survey');
         }
 
-        function renderQuestions() {
+        window.renderQuestions = function() {
             const container = document.getElementById('questions-container');
             container.innerHTML = '';
             surveyData.forEach((axis, idx) => {
@@ -215,7 +212,7 @@ const db = getFirestore(app);
             });
         }
 
-        function updateProgress() {
+        window.updateProgress = function() {
             const count = Object.keys(currentAnswers).length;
             document.getElementById('mainProgress').style.width = (count / 16 * 100) + "%"; // Ajustado a 16 preguntas de ejemplo
             if (count >= 16) document.getElementById('submit-btn').style.display = "block";
@@ -238,7 +235,7 @@ window.finalSubmit = async function() {
         async function exportData() {
             alert("Generando CSV...");
         }
-        function renderModDashboard(data) {
+        window.renderModDashboard = function(data) {
     const count = data.length;
     document.getElementById('mod-count').innerText = count;
     
@@ -289,10 +286,17 @@ window.finalSubmit = async function() {
         container.appendChild(card);
     }
 }
-    onSnapshot(collection(db, "respuestas"), (snapshot) => {
+        // Escuchamos los cambios en la base de datos en tiempo real
+onSnapshot(collection(db, "respuestas"), (snapshot) => {
     const rtas = [];
-    snapshot.forEach((doc) => rtas.push(doc.data()));
-    renderModDashboard(rtas);
+    snapshot.forEach((doc) => {
+        rtas.push(doc.data());
+    });
+    
+    // Solo ejecutamos si la función existe para evitar errores
+    if (typeof window.renderModDashboard === "function") {
+        window.renderModDashboard(rtas);
+    }
 });
     </script>
 </body>
