@@ -82,20 +82,22 @@
     </div>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const firebaseConfig = {
-    apiKey: "TU_API_KEY",
-    authDomain: "tu-proyecto.firebaseapp.com",
-    projectId: "tu-proyecto",
-    storageBucket: "tu-proyecto.appspot.com",
-    messagingSenderId: "tu-id",
-    appId: "tu-app-id"
+        const firebaseConfig = {
+  apiKey: "AIzaSyDmmeR2TtpiSbsZT6lWCHBNDIxSsbxmPKg",
+  authDomain: "abeceb---workshop.firebaseapp.com",
+  projectId: "abeceb---workshop",
+  storageBucket: "abeceb---workshop.firebasestorage.app",
+  messagingSenderId: "95532130142",
+  appId: "1:95532130142:web:ad11e13f1b2d94c4aa79cf",
+  measurementId: "G-Q5GER2M6KL"
 };
-
+        
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+        
         // CONFIGURACIÓN DE LAS 16 PREGUNTAS
         const surveyData = [
             {
@@ -112,6 +114,7 @@ const db = getFirestore(app);
                     { id: 4, text: "Resiliencia en insumos clave (materias primas, energía):", opts: [{t:0, i:0, l:"A. Proveedores únicos / spot"}, {t:0, i:2, l:"B. Integración regional / largo plazo"}, {t:2, i:0, l:"C. Eficiencia interna y sustitución"}, {t:2, i:2, l:"D. Co-inversión en ecosistemas"}] },
                     { id: 5, text: "Mitigación ante alza de costos en servicios globales:", opts: [{t:0, i:0, l:"A. Absorción del incremento"}, {t:0, i:2, l:"B. Optimización logística y contratos"}, {t:2, i:0, l:"C. Automatización para ahorro capital"}, {t:2, i:2, l:"D. Autogeneración o low-energy"}] },
                     { id: 6, text: "Protección ante contingencias de infraestructura:", opts: [{t:0, i:0, l:"A. Seguros básicos tradicionales"}, {t:0, i:2, l:"B. Ajustes por historial regional"}, {t:2, i:0, l:"C. Modelos predictivos y mitigación"}, {t:2, i:2, l:"D. Red productiva resiliente"}] }
+                    { id: 6, text: "Protección ante contingencias de infraestructura:", opts: [{t:0, i:0, l:"A. Seguros básicos tradicionales"}, {t:0, i:2, l:"B. Ajustes por historial regional"}, {t:2, i:0, l:"C. Modelos predictivos y mitigación"}, {t:2, i:2, l:"D. Red productiva resiliente"}] }
                 ]
             },
             {
@@ -119,9 +122,29 @@ const db = getFirestore(app);
                 questions: [
                     { id: 7, text: "Integración de IA y modelos de lenguaje en procesos core:", opts: [{t:0, i:0, l:"A. Sin herramientas de IA críticas"}, {t:0, i:2, l:"B. Uso de herramientas genéricas"}, {t:2, i:0, l:"C. IA específica para producción"}, {t:2, i:2, l:"D. Orquestación de modelos propios"}] },
                     { id: 8, text: "Productividad y Automatización de recursos:", opts: [{t:0, i:0, l:"A. Procesos manuales predominantes"}, {t:0, i:2, l:"B. Business as Usual con automatización"}, {t:2, i:0, l:"C. Automatización profunda del capital"}, {t:2, i:2, l:"D. Rediseño total humano-máquina"}] },
+                    { id: 8, text: "Productividad y Automatización de recursos:", opts: [{t:0, i:0, l:"A. Procesos manuales predominantes"}, {t:0, i:2, l:"B. Business as Usual con automatización"}, {t:2, i:0, l:"C. Automatización profunda del capital"}, {t:2, i:2, l:"D. Rediseño total humano-máquina"}] },
                     { id: 9, text: "Gestión del riesgo de ciberseguridad ante IA:", opts: [{t:0, i:0, l:"A. Protecciones estándar reactivas"}, {t:0, i:2, l:"B. Certificaciones internacionales"}, {t:2, i:0, l:"C. IA defensiva en tiempo real"}, {t:2, i:2, l:"D. Estrategia Confianza Cero nativa"}] }
                 ]
             },
+            {
+                axis: "4. Acceso Regulatorio",
+                questions: [
+                    { id: 10, text: "Posicionamiento ante marcos regulatorios globales:", opts: [{t:0, i:0, l:"A. Desconocimiento del impacto"}, {t:0, i:2, l:"B. Adaptación mínima para acceso"}, {t:2, i:0, l:"C. Cumplimiento como innovación"}, {t:2, i:2, l:"D. Adopción proactiva premium"}] },
+                    { id: 10, text: "Posicionamiento ante marcos regulatorios globales:", opts: [{t:0, i:0, l:"A. Desconocimiento del impacto"}, {t:0, i:2, l:"B. Adaptación mínima para acceso"}, {t:2, i:0, l:"C. Cumplimiento como innovación"}, {t:2, i:2, l:"D. Adopción proactiva premium"}] },
+                    { id: 11, text: "Grado de avance en su estrategia ESG:", opts: [{t:0, i:0, l:"A. Sin estrategia definida"}, {t:0, i:2, l:"B. Objetivos de cumplimiento básico"}, {t:2, i:0, l:"C. Ejecución parcial con eficiencia"}, {t:2, i:2, l:"D. Estrategia consolidada y auditada"}] },
+                    { id: 12, text: "Nivel de alfabetización en ética de IA (Directorio):", opts: [{t:0, i:0, l:"A. No forma parte de la agenda"}, {t:0, i:2, l:"B. Conocimiento básico privacidad"}, {t:2, i:0, l:"C. Políticas claras responsables"}, {t:2, i:2, l:"D. Participación en foros globales"}] }
+                ]
+            },
+            {
+                axis: "5. Apuesta a Largo Plazo",
+                questions: [
+                    { id: 13, text: "Grado de apertura a nuevos modelos de negocio:", opts: [{t:0, i:0, l:"A. Business as Usual (Mantener)"}, {t:0, i:2, l:"B. Potenciar core eficientizando"}, {t:2, i:0, l:"C. Ampliar hacia modelos afines"}, {t:2, i:2, l:"D. Abrir negocios fuera del core"}] },
+                    { id: 14, text: "Esfuerzo dedicado a ventaja competitiva 2030:", opts: [{t:0, i:0, l:"A. Menos del 5% (Operativo)"}, {t:0, i:2, l:"B. 5% - 15% (Mejoras marginales)"}, {t:2, i:0, l:"C. 15% - 30% (Disrupción tech)"}, {t:2, i:2, l:"D. Más del 30% (Visión estructural)"}] },
+                    { id: 15, text: "Reconfiguración de fuerza laboral (Humano-Máquina):", opts: [{t:0, i:0, l:"A. Sin cambios en perfiles"}, {t:0, i:2, l:"B. Capacitación técnica digital"}, {t:2, i:0, l:"C. Re-skilling productivo intensivo"}, {t:2, i:2, l:"D. Roles estratégicos delegados"}] },
+                    { id: 16, text: "Atracción de talento especializado global:", opts: [{t:0, i:0, l:"A. Oferta local tradicional"}, {t:0, i:2, l:"B. Flexibilidad competitiva LATAM"}, {t:2, i:0, l:"C. Centros de excelencia propios"}, {t:2, i:2, l:"D. Redes globales de conocimiento"}] }
+                ]
+            }
+        ];
         let currentAnswers = {};
         let selectedCEO = "";
 
@@ -179,16 +202,24 @@ const db = getFirestore(app);
 
         function updateProgress() {
             const count = Object.keys(currentAnswers).length;
-            document.getElementById('mainProgress').style.width = (count / 4 * 100) + "%"; // Ajustado a 4 preguntas de ejemplo
-            if (count >= 4) document.getElementById('submit-btn').style.display = "block";
+            document.getElementById('mainProgress').style.width = (count / 16 * 100) + "%"; // Ajustado a 16 preguntas de ejemplo
+            if (count >= 16) document.getElementById('submit-btn').style.display = "block";
         }
-
-        window.finalSubmit = async function() {
-            // Aquí iría tu código de Firebase
-            alert("Enviando datos de " + selectedCEO);
-            switchScreen('screen-result');
-        }
-
+window.finalSubmit = async function() {
+    try {
+        // Esto guarda los datos en la colección "respuestas" de tu Firebase
+        await addDoc(collection(db, "respuestas"), {
+            name: selectedCEO,
+            respuestas: currentAnswers,
+            timestamp: serverTimestamp()
+        });
+        alert("¡Éxito! Diagnóstico enviado para " + selectedCEO);
+        window.switchScreen('screen-result');
+    } catch (e) {
+        console.error("Error al enviar:", e);
+        alert("Hubo un error al conectar con Firebase.");
+    }
+};
         async function exportData() {
             alert("Generando CSV...");
         }
