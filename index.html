@@ -81,39 +81,23 @@
             <div class="card">
                 <h2>DASHBOARD GRUPAL</h2>
                 <p>Participantes: <span id="mod-count" style="font-weight:bold;">0</span></p>
-                <div id="mod-dots-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;"></div>
-                <button class="btn-primary" style="margin-top:20px;" onclick="exportData()">EXPORTAR CSV</button>
-                <button class="btn-primary" style="margin-top:10px; background:#777;" onclick="location.reload()">VOLVER</button>
-            </div>
-        </div>
-
-        <div id="screen-result" class="screen">
-            <div class="card">
-                <h2>Diagnóstico Completado</h2>
-                <div id="individual-matrix-placeholder"></div>
-                <button class="btn-primary" onclick="location.reload()">FINALIZAR</button>
-            </div>
-        </div>
-    </div>
-
-    <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+               <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
         const firebaseConfig = {
-  apiKey: "AIzaSyDmmeR2TtpiSbsZT6lWCHBNDIxSsbxmPKg",
-  authDomain: "abeceb---workshop.firebaseapp.com",
-  projectId: "abeceb---workshop",
-  storageBucket: "abeceb---workshop.firebasestorage.app",
-  messagingSenderId: "95532130142",
-  appId: "1:95532130142:web:ad11e13f1b2d94c4aa79cf",
-  measurementId: "G-Q5GER2M6KL"
-};
+            apiKey: "AIzaSyDmmeR2TtpiSbsZT6lWCHBNDIxSsbxmPKg",
+            authDomain: "abeceb---workshop.firebaseapp.com",
+            projectId: "abeceb---workshop",
+            storageBucket: "abeceb---workshop.firebasestorage.app",
+            messagingSenderId: "95532130142",
+            appId: "1:95532130142:web:ad11e13f1b2d94c4aa79cf",
+            measurementId: "G-Q5GER2M6KL"
+        };
         
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
         
-        // CONFIGURACIÓN DE LAS 16 PREGUNTAS
         const surveyData = [
             {
                 axis: "1. Geografía Estratégica",
@@ -157,10 +141,11 @@ const db = getFirestore(app);
                 ]
             }
         ];
+
         let currentAnswers = {};
         let selectedCEO = "";
 
-window.switchScreen = function(id) {           
+        window.switchScreen = function(id) {           
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             window.scrollTo(0,0);
@@ -168,7 +153,7 @@ window.switchScreen = function(id) {
 
         window.showModerator = function() {
             const pass = prompt("Contraseña:");
-            if (pass === "abeceb2026") switchScreen('screen-mod');
+            if (pass === "abeceb2026") window.switchScreen('screen-mod');
         }
 
         window.startSurvey = function() {
@@ -176,8 +161,8 @@ window.switchScreen = function(id) {
             if (!sel.value) return alert("Seleccione su nombre");
             selectedCEO = sel.value;
             document.getElementById('user-greeting').innerText = "Bienvenido, " + selectedCEO;
-            renderQuestions();
-            switchScreen('screen-survey');
+            window.renderQuestions();
+            window.switchScreen('screen-survey');
         }
 
         window.renderQuestions = function() {
@@ -201,7 +186,7 @@ window.switchScreen = function(id) {
                             qD.querySelectorAll('.opt-btn').forEach(x => x.classList.remove('selected'));
                             e.target.classList.add('selected');
                             currentAnswers[q.id] = o;
-                            updateProgress();
+                            window.updateProgress();
                         };
                         qD.appendChild(b);
                     });
@@ -214,90 +199,71 @@ window.switchScreen = function(id) {
 
         window.updateProgress = function() {
             const count = Object.keys(currentAnswers).length;
-            document.getElementById('mainProgress').style.width = (count / 16 * 100) + "%"; // Ajustado a 16 preguntas de ejemplo
+            document.getElementById('mainProgress').style.width = (count / 16 * 100) + "%";
             if (count >= 16) document.getElementById('submit-btn').style.display = "block";
         }
-window.finalSubmit = async function() {
-    try {
-        // Esto guarda los datos en la colección "respuestas" de tu Firebase
-        await addDoc(collection(db, "respuestas"), {
-            name: selectedCEO,
-            respuestas: currentAnswers,
-            timestamp: serverTimestamp()
-        });
-        alert("¡Éxito! Diagnóstico enviado para " + selectedCEO);
-        window.switchScreen('screen-result');
-    } catch (e) {
-        console.error("Error al enviar:", e);
-        alert("Hubo un error al conectar con Firebase.");
-    }
-};
-        async function exportData() {
-            alert("Generando CSV...");
-        }
+
+        window.finalSubmit = async function() {
+            try {
+                await addDoc(collection(db, "respuestas"), {
+                    name: selectedCEO,
+                    respuestas: currentAnswers,
+                    timestamp: serverTimestamp()
+                });
+                alert("¡Éxito! Diagnóstico enviado para " + selectedCEO);
+                window.switchScreen('screen-result');
+            } catch (e) {
+                console.error("Error al enviar:", e);
+                alert("Hubo un error al conectar con Firebase.");
+            }
+        };
+
         window.renderModDashboard = function(data) {
-    const count = data.length;
-    document.getElementById('mod-count').innerText = count;
-    
-    const container = document.getElementById('mod-dots-container');
-    if (!container) return;
+            const count = data.length;
+            document.getElementById('mod-count').innerText = count;
+            const container = document.getElementById('mod-dots-container');
+            if (!container) return;
+            container.innerHTML = '<h3 style="grid-column: 1/-1; text-align:center; color:#3E7578; margin: 20px 0;">Monitoreo en Tiempo Real</h3>';
+            container.style.display = "flex";
+            container.style.flexDirection = "column";
+            container.style.gap = "15px";
+            for (let qId = 1; qId <= 16; qId++) {
+                const counts = { A: 0, B: 0, C: 0, D: 0 };
+                data.forEach(user => {
+                    if (user.respuestas && user.respuestas[qId]) {
+                        const letra = user.respuestas[qId].l.charAt(0); 
+                        if (counts[letra] !== undefined) counts[letra]++;
+                    }
+                });
+                const card = document.createElement('div');
+                card.style.cssText = "background:#fff; padding:15px; border-radius:10px; border-left:5px solid #6DB4AF; box-shadow:0 2px 5px rgba(0,0,0,0.1);";
+                let html = `<p style="font-weight:bold; margin-bottom:10px;">Dimensión ${qId}</p>`;
+                ['A', 'B', 'C', 'D'].forEach(letra => {
+                    const cant = counts[letra];
+                    const porc = count > 0 ? (cant / count * 100) : 0;
+                    html += `
+                        <div style="margin-bottom: 8px;">
+                            <div style="display:flex; justify-content:space-between; font-size:9pt;">
+                                <span>Opción ${letra}</span>
+                                <span>${cant} rtas.</span>
+                            </div>
+                            <div style="width:100%; height:10px; background:#eee; border-radius:5px; overflow:hidden;">
+                                <div style="width:${porc}%; height:100%; background:#3E7578; transition: width 0.6s ease;"></div>
+                            </div>
+                        </div>`;
+                });
+                card.innerHTML = html;
+                container.appendChild(card);
+            }
+        }
 
-    // 1. Limpiamos y preparamos el contenedor
-    container.innerHTML = '<h3 style="grid-column: 1/-1; text-align:center; color:#3E7578; margin: 20px 0;">Monitoreo en Tiempo Real</h3>';
-    container.style.display = "flex";
-    container.style.flexDirection = "column";
-    container.style.gap = "15px";
-
-    // 2. Generamos las barras para las 16 preguntas
-    for (let qId = 1; qId <= 16; qId++) {
-        const counts = { A: 0, B: 0, C: 0, D: 0 };
-
-        // Contamos respuestas de los CEOs
-        data.forEach(user => {
-            if (user.respuestas && user.respuestas[qId]) {
-                const letra = user.respuestas[qId].l.charAt(0); 
-                if (counts[letra] !== undefined) counts[letra]++;
+        onSnapshot(collection(db, "respuestas"), (snapshot) => {
+            const rtas = [];
+            snapshot.forEach((doc) => rtas.push(doc.data()));
+            if (typeof window.renderModDashboard === "function") {
+                window.renderModDashboard(rtas);
             }
         });
-
-        // 3. Creamos el diseño de la pregunta
-        const card = document.createElement('div');
-        card.style.cssText = "background:#fff; padding:15px; border-radius:10px; border-left:5px solid #6DB4AF; box-shadow:0 2px 5px rgba(0,0,0,0.1);";
-
-        let html = `<p style="font-weight:bold; margin-bottom:10px;">Dimensión ${qId}</p>`;
-        
-        ['A', 'B', 'C', 'D'].forEach(letra => {
-            const cant = counts[letra];
-            const porc = count > 0 ? (cant / count * 100) : 0;
-            
-            html += `
-                <div style="margin-bottom: 8px;">
-                    <div style="display:flex; justify-content:space-between; font-size:9pt;">
-                        <span>Opción ${letra}</span>
-                        <span>${cant} rtas.</span>
-                    </div>
-                    <div style="width:100%; height:10px; background:#eee; border-radius:5px; overflow:hidden;">
-                        <div style="width:${porc}%; height:100%; background:#3E7578; transition: width 0.6s ease;"></div>
-                    </div>
-                </div>`;
-        });
-
-        card.innerHTML = html;
-        container.appendChild(card);
-    }
-}
-        // Escuchamos los cambios en la base de datos en tiempo real
-onSnapshot(collection(db, "respuestas"), (snapshot) => {
-    const rtas = [];
-    snapshot.forEach((doc) => {
-        rtas.push(doc.data());
-    });
-    
-    // Solo ejecutamos si la función existe para evitar errores
-    if (typeof window.renderModDashboard === "function") {
-        window.renderModDashboard(rtas);
-    }
-});
     </script>
 </body>
 </html>
