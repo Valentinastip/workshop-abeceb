@@ -219,22 +219,58 @@
         };
 
         window.renderModDashboard = function(data) {
-            const count = data.length;
-            document.getElementById('mod-count').innerText = count;
-            const container = document.getElementById('mod-dots-container');
-            if (!container) return;
-            container.innerHTML = '<h3 style="grid-column: 1/-1; text-align:center; color:#3E7578; margin: 20px 0;">Monitoreo en Tiempo Real</h3>';
-            container.style.display = "flex";
-            container.style.flexDirection = "column";
-            container.style.gap = "15px";
-            for (let qId = 1; qId <= 16; qId++) {
-                const counts = { A: 0, B: 0, C: 0, D: 0 };
-                data.forEach(user => {
-                    if (user.respuestas && user.respuestas[qId]) {
-                        const letra = user.respuestas[qId].l.charAt(0); 
-                        if (counts[letra] !== undefined) counts[letra]++;
-                    }
-                });
+    const count = data.length;
+    document.getElementById('mod-count').innerText = count;
+    
+    const container = document.getElementById('mod-dots-container');
+    if (!container) return;
+
+    // Limpiamos y forzamos el estilo para que sea visible
+    container.innerHTML = '';
+    container.style.display = "block"; 
+    container.style.marginTop = "20px";
+
+    if (count === 0) {
+        container.innerHTML = '<p style="color: #999;">Esperando respuestas de los CEOs...</p>';
+        return;
+    }
+
+    // Generamos las barras para las 16 preguntas
+    for (let qId = 1; qId <= 16; qId++) {
+        const counts = { A: 0, B: 0, C: 0, D: 0 };
+
+        data.forEach(user => {
+            if (user.respuestas && user.respuestas[qId]) {
+                const letra = user.respuestas[qId].l.charAt(0); 
+                if (counts[letra] !== undefined) counts[letra]++;
+            }
+        });
+
+        const card = document.createElement('div');
+        card.style.cssText = "background:#f9f9f9; padding:15px; border-radius:10px; border-left:5px solid #95C11F; margin-bottom:15px; text-align:left; box-shadow:0 2px 5px rgba(0,0,0,0.05);";
+
+        let html = `<p style="font-weight:bold; margin:0 0 10px 0; color:#293945;">Pregunta ${qId}</p>`;
+        
+        ['A', 'B', 'C', 'D'].forEach(letra => {
+            const cant = counts[letra];
+            const porc = (cant / count * 100);
+            
+            html += `
+                <div style="margin-bottom: 8px;">
+                    <div style="display:flex; justify-content:space-between; font-size:10pt; margin-bottom:3px;">
+                        <span>Opción ${letra}</span>
+                        <span style="font-weight:bold;">${cant} rtas</span>
+                    </div>
+                    <div style="width:100%; height:12px; background:#eee; border-radius:6px; overflow:hidden;">
+                        <div style="width:${porc}%; height:100%; background:#3E7578; transition: width 0.8s ease;"></div>
+                    </div>
+                </div>`;
+        });
+
+        card.innerHTML = html;
+        container.appendChild(card);
+    }
+}
                 const card = document.createElement('div');
                 card.style.cssText = "background:#fff; padding:15px; border-radius:10px; border-left:5px solid #6DB4AF; box-shadow:0 2px 5px rgba(0,0,0,0.1);";
                 let html = `<p style="font-weight:bold; margin-bottom:10px;">Dimensión ${qId}</p>`;
