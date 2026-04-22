@@ -96,24 +96,32 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-        // 1. BASE DE DATOS DE PREGUNTAS
+        // CONFIGURACIÓN DE LAS 16 PREGUNTAS
         const surveyData = [
             {
-                axis: "1. Estrategia Global",
+                axis: "1. Geografía Estratégica",
                 questions: [
-                    { id: 1, text: "Visión estratégica 2026:", opts: [{t:0, i:0, l:"A. Conservadora"}, {t:2, i:2, l:"D. Innovadora"}] },
-                    { id: 2, text: "Adaptación al cambio:", opts: [{t:0, i:0, l:"A. Lenta"}, {t:2, i:2, l:"D. Ágil"}] }
+                    { id: 1, text: "¿A qué mercados orienta su oferta actual?", opts: [{t:0, i:0, l:"A. Mercado interno (Argentina)"}, {t:0, i:2, l:"B. Argentina y países limítrofes"}, {t:2, i:0, l:"C. América Latina (LATAM)"}, {t:2, i:2, l:"D. Mercado global (Mundo)"}] },
+                    { id: 2, text: "¿Cómo gestiona la provisión de tecnología ante tensiones geopolíticas?", opts: [{t:0, i:0, l:"A. Disponibilidad inmediata mercado local"}, {t:0, i:2, l:"B. Búsqueda nuevos acuerdos comerciales"}, {t:2, i:0, l:"C. Priorización tecnológica (riesgo)"}, {t:2, i:2, l:"D. Matriz diversificada y stock"}] },
+                    { id: 3, text: "Estrategia de soberanía de datos e infraestructura:", opts: [{t:0, i:0, l:"A. Sin consideración geográfica"}, {t:0, i:2, l:"B. Almacenamiento regional (compliance)"}, {t:2, i:0, l:"C. Nubes privadas con control interno"}, {t:2, i:2, l:"D. Arquitecturas híbridas globales"}] }
+                ]
+            },
+            {
+                axis: "2. Seguridad de Suministro",
+                questions: [
+                    { id: 4, text: "Resiliencia en insumos clave (materias primas, energía):", opts: [{t:0, i:0, l:"A. Proveedores únicos / spot"}, {t:0, i:2, l:"B. Integración regional / largo plazo"}, {t:2, i:0, l:"C. Eficiencia interna y sustitución"}, {t:2, i:2, l:"D. Co-inversión en ecosistemas"}] },
+                    { id: 5, text: "Mitigación ante alza de costos en servicios globales:", opts: [{t:0, i:0, l:"A. Absorción del incremento"}, {t:0, i:2, l:"B. Optimización logística y contratos"}, {t:2, i:0, l:"C. Automatización para ahorro capital"}, {t:2, i:2, l:"D. Autogeneración o low-energy"}] },
+                    { id: 6, text: "Protección ante contingencias de infraestructura:", opts: [{t:0, i:0, l:"A. Seguros básicos tradicionales"}, {t:0, i:2, l:"B. Ajustes por historial regional"}, {t:2, i:0, l:"C. Modelos predictivos y mitigación"}, {t:2, i:2, l:"D. Red productiva resiliente"}] }
                 ]
             },
             {
                 axis: "3. Plataforma Tecnológica",
                 questions: [
-                    { id: 7, text: "Integración de IA:", opts: [{t:0, i:0, l:"A. Sin herramientas"}, {t:2, i:2, l:"D. Modelos propios"}] },
-                    { id: 8, text: "Automatización:", opts: [{t:0, i:0, l:"A. Manual"}, {t:2, i:2, l:"D. Rediseño total"}] }
+                    { id: 7, text: "Integración de IA y modelos de lenguaje en procesos core:", opts: [{t:0, i:0, l:"A. Sin herramientas de IA críticas"}, {t:0, i:2, l:"B. Uso de herramientas genéricas"}, {t:2, i:0, l:"C. IA específica para producción"}, {t:2, i:2, l:"D. Orquestación de modelos propios"}] },
+                    { id: 8, text: "Productividad y Automatización de recursos:", opts: [{t:0, i:0, l:"A. Procesos manuales predominantes"}, {t:0, i:2, l:"B. Business as Usual con automatización"}, {t:2, i:0, l:"C. Automatización profunda del capital"}, {t:2, i:2, l:"D. Rediseño total humano-máquina"}] },
+                    { id: 9, text: "Gestión del riesgo de ciberseguridad ante IA:", opts: [{t:0, i:0, l:"A. Protecciones estándar reactivas"}, {t:0, i:2, l:"B. Certificaciones internacionales"}, {t:2, i:0, l:"C. IA defensiva en tiempo real"}, {t:2, i:2, l:"D. Estrategia Confianza Cero nativa"}] }
                 ]
-            }
-        ];
-
+            },
         let currentAnswers = {};
         let selectedCEO = "";
 
